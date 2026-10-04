@@ -821,4 +821,18 @@
     <axis
       xyz="0 -1 0" />
   </joint>
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-joint-position-controller-system"
+      name="gz::sim::systems::JointPositionController">
+      <joint_name>shoulder_yaw</joint_name>
+      <joint_name>shoulder_pitch</joint_name>
+      <joint_name>elbow_pitch</joint_name>
+      <joint_name>elbow_roll</joint_name>
+      <joint_name>wrist_pitch</joint_name>
+      <joint_name>wrist_roll</joint_name>
+    </plugin>
+  </gazebo>
+
 </robot>

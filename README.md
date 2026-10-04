@@ -27,3 +27,20 @@ Remember to go over documentation.
 ## 6. Be ready to present your solution
 6.1. Modify this README.md file in your forked workspace presenting your solutions.\
 6.2. Run and present your workspace to the Software Manager.
+
+## The solutions
+### Package fix
+`CMakeLists.txt` installs `urdf`, `meshes`, `launch`, `worlds`, and `config`. `package.xml` depends on `rclpy`, `sensor_msgs`, `std_msgs`, `ros_gz_sim`, and `ros_gz_bridge`.
+
+### RViz
+`launch/display.launch.py` starts `robot_state_publisher`, `joint_state_publisher_gui`, and `rviz2`. Fixed Frame is `base_link`. RobotModel uses `/robot_description`.
+
+### Joint control and dance
+`joint_control.py` publishes one `JointState` on `/joint_states`. `dance.py` publishes a sine-wave sequence on the same topic. Close the joint GUI before running these nodes, so two publishers do not fight over `/joint_states`.
+
+### Gazebo Harmonic
+`launch/gazebo.launch.py` starts Gazebo with `worlds/rover.sdf` and spawns the rover as `rover`. `gazebo_dance.py` publishes `std_msgs/Float64` on `/shoulder_yaw_cmd`, `/shoulder_pitch_cmd`, `/elbow_pitch_cmd`, `/elbow_roll_cmd`, `/wrist_pitch_cmd`, and `/wrist_roll_cmd`. `config/bridge.yaml` maps those ROS topics to Gazebo `/model/rover/joint/<name>/0/cmd_pos`. The URDF `JointPositionController` plugin listens on the Gazebo topics. `ros_gz_bridge` is started by the launch file. Do not start it by hand.
+
+Run Gazebo: `ros2 launch intro_rover_description gazebo.launch.py`
+
+Then, in another terminal: `ros2 run intro_rover_description gazebo_dance.py`
